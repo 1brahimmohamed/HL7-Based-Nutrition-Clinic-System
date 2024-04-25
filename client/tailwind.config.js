@@ -11,9 +11,9 @@ export default {
                 'primary-light': "#77e65a",
                 'primary-main': "#1c9409",
 
-                'secondary-dark': "#0d290c",
-                'secondary-light': "#77e65a",
-                'secondary-main': "#1c9409",
+                'secondary-dark': "#00321f",
+                'secondary-light': "#014422",
+                'secondary-main': "#345f3c",
 
                 'common-dark': "#726f7e",
                 'common-light': "#a19fad",
@@ -23,6 +23,8 @@ export default {
             },
         },
     },
-  plugins: [],
+    plugins: [
+        import('@tailwindcss/forms'),
+    ],
 }
 
