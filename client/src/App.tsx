@@ -1,12 +1,13 @@
+import {RouterProvider} from "react-router-dom";
+import router from "./router.tsx"
+import AuthProvider from 'react-auth-kit';
+import authStore from './features/auth/auth-store.ts';
+
 function App() {
-
-  return (
-      <div className="App">
-          <h1 className="text-3xl font-bold underline">
-              Hello world!
-          </h1>
-      </div>
-  )
+    return (
+        <AuthProvider store={authStore}>
+            <RouterProvider router={router} />
+        </AuthProvider>
+    )
 }
-
 export default App
