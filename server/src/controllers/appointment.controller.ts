@@ -61,6 +61,7 @@ export const createAppointment = AsyncErrorCatching(async (req: Request, res: Re
     const doctorAppointments = await Appointment.find({
         doctor: req.body.doctor,
         date: req.body.date,
+        status: "pending"
     });
 
     if (doctorAppointments.length > 0) {

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {Document, Page, pdfjs} from 'react-pdf';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -12,10 +12,7 @@ type PDFFile = string | File | null;
 const PdfViewer = () => {
 
     const [file, setFile] = useState<PDFFile>(null);
-
-    const [numPages, _] = useState(1);
-
-
+    const numPages = 1;
     function onFileChange(event: React.ChangeEvent<HTMLInputElement>): void {
         const {files} = event.target;
 
@@ -56,7 +53,7 @@ const PdfViewer = () => {
                             {
                                 Array.from(
                                     new Array(numPages),
-                                    (el, index) => (
+                                    (_, index) => (
                                         <Page
                                             key={`page_${index + 1}`}
                                             pageNumber={index + 1}
