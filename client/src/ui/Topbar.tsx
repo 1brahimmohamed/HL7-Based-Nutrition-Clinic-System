@@ -2,7 +2,7 @@ import {Bars3Icon, BellIcon} from "@heroicons/react/24/outline";
 import {ChevronDownIcon, MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 import {Menu, Transition} from "@headlessui/react";
 import {Fragment} from "react";
-import {classNames} from "../utils/helpers.ts";
+import {classNames} from "../utils/helpers.tsx";
 import {Link} from "react-router-dom";
 import {Avatar} from "@mui/material";
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';

@@ -1,5 +1,5 @@
 import {Cog6ToothIcon} from "@heroicons/react/24/outline";
-import {classNames} from "../utils/helpers.ts";
+import {classNames} from "../utils/helpers.tsx";
 import {Link, useLocation} from "react-router-dom";
 
 type TDesktopSidebarProps = {
