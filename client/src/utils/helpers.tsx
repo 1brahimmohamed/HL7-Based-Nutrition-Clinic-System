@@ -14,3 +14,7 @@ export const fireModal = (text: string, icon: SweetAlertIcon = "success", confir
         timer: timer
     })
 }
+
+export const toProperCase = (str: string) => {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
