@@ -1,11 +1,11 @@
-import { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import LoginHeader from "./LoginHeader.tsx";
 import InputField from "../../ui/inputField.tsx";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import { login } from "../../services/apiAuth.ts";
 import { useNavigate } from "react-router-dom";
-import { fireModal } from "../../utils/helpers.ts";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -22,14 +22,14 @@ const Login = () => {
   const signIn = useSignIn();
   const navigate = useNavigate();
 
-  const emailChangeHandler = (event: any) => {
+  const emailChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       email: event.target.value,
     });
   };
 
-  const passwordChangeHandler = (event: any) => {
+  const passwordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       password: event.target.value,
@@ -40,6 +40,16 @@ const Login = () => {
     e.preventDefault();
 
     setIsSubmitting(true);
+
+    if (!formData.email || !formData.password) {
+        setErrorState({
+            errorMessage: "Please fill in all fields",
+            isErrorMessageShown: true,
+        });
+        setIsSubmitting(false);
+        return;
+    }
+
     const response = await login(formData);
     setIsSubmitting(false);
 
@@ -52,15 +62,17 @@ const Login = () => {
         userState: response.data,
       });
 
-      fireModal("Login Successful");
+      toast.success("Login successful", {
+        duration: 2500,
+      });
 
       setTimeout(() => {
         navigate("/");
       }, 2000);
+
     } else {
-      setErrorState({
-        errorMessage: "Something went wrong please try again!",
-        isErrorMessageShown: true,
+      toast.error("Login failed, please try again", {
+        duration: 2500,
       });
     }
   };
