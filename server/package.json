@@ -25,7 +25,7 @@
     "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
-    "moongoose": "^0.0.5",
+    "moongoose": "^0.0.1",
     "pg": "^8.11.3",
     "typescript": "^5.3.3",
     "validator": "^13.11.0",
