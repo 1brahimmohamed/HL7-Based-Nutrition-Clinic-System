@@ -52,10 +52,10 @@ const MedicalHistory = ({history}: {history: any}) => {
                 <li key={key} className="overflow-hidden rounded-xl border border-gray-200">
                     <HistoryCardHeader sectionName={key} icon={key[0]}/>
 
-                    {objectValues[index].map(() => (
+                    {objectValues[index].map((_, valueIndex: number) => (
                         <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
                             <div className="flex justify-between gap-x-4 py-2">
-                                <dt className="text-gray-500">{camelCaseToProperCase(removePlural(key))} {index}</dt>
+                                <dt className="text-gray-500">{camelCaseToProperCase(removePlural(key))} {valueIndex + 1}</dt>
                                 <dd className="text-gray-700"></dd>
                             </div>
                         </dl>
