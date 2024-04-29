@@ -28,13 +28,17 @@ const patientSchema = new mongoose.Schema(
         job: {
             type: String,
             trim: true,
+            default: "",
         },
         phoneNumber: {
             type: String,
             required: true,
             unique: true,
         },
-        address: String,
+        address: {
+            type: String,
+            default: "",
+        },
         birthdate: {
             type: Date,
             required: true,

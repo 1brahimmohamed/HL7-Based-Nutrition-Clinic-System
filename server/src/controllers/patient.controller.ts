@@ -79,14 +79,25 @@ export const updatePatientMedicalHistory = AsyncErrorCatching(async (req: Reques
         "medicalTests",
     );
 
-    const patient = await Patient.findByIdAndUpdate(req.params.id, filteredBody, {
-        new: true,
-        runValidators: true,
-    });
+
+    const patient = await Patient.findById(req.params.id);
 
     if (!patient) {
         return next(new ErrorHandler("No patient found with that ID", 404));
     }
+
+    // find the fields that is present in the request body
+    const keys = Object.keys(filteredBody);
+
+    // update the patient's medical history with the fields present in the request body
+    keys.forEach((key) => {
+       if (patient.medicalHistory && (patient.medicalHistory as any)[key]) {
+           console.log(key, (filteredBody as any)[key]);
+              (patient.medicalHistory as any)[key] = (filteredBody as any)[key];
+       }
+    });
+
+    await patient.save();
 
     res.status(200).json({
         status: "success",

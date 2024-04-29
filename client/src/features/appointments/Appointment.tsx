@@ -1,6 +1,5 @@
 import { cancelAppointment, getAppointment, updateAppointment } from '../../services/apiAppointments.ts';
 import React, { useEffect, useState } from 'react';
-import AppointmentHeader from './AppointmentHeader.tsx';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Loading from '../../ui/Loading.tsx';
 import { fireModal, generateTimeOptions, toProperCase } from '../../utils/helpers.tsx';
@@ -8,6 +7,7 @@ import { fireModal, generateTimeOptions, toProperCase } from '../../utils/helper
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import EditableField from '../../ui/EditableField.tsx';
+import PageHeader from "../../ui/PageHeader.tsx";
 
 const Appointment = () => {
     const { id } = useParams();
@@ -133,12 +133,17 @@ const Appointment = () => {
 
     return (
         <div className="px-4 sm:px-6 lg:px-8">
-            <AppointmentHeader
-                patientName={appointment.patient.firstName}
-                cancelAppointment={handleCancelAppointment}
-                saveChanges={saveChanges}
+
+            <PageHeader
+                title={`${appointment.patient.fullName} Appointment`}
+                description={'A detailed view of this appointment.'}
+                isInEditMode={editMode}
+                isInEditModeText={'Save Changes'}
+                isNotInEditModeText={'Edit Appointment'}
+                cancelButtonText={'Cancel Appointment'}
+                saveChangesHandler={saveChanges}
                 editToggle={handleEditToggle}
-                isEditMode={editMode}
+                cancelButtonHandler={handleCancelAppointment}
             />
 
             <div className="mt-6 border-t border-gray-100">

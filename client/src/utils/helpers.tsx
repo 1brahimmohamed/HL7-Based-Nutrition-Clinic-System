@@ -28,6 +28,23 @@ export const toProperCase = (str: string) => {
     });
 };
 
+export const camelCaseToProperCase = (input:string) => {
+    // Replace all underscores with spaces
+    const spaced = input.replace(/_/g, ' ');
+
+    // Insert a space before all capital letters, except the first character
+    const spacedCamel = spaced.replace(/([a-z])([A-Z])/g, '$1 $2');
+
+    // Capitalize the first letter of each word
+    return spacedCamel.replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+
+export const removePlural = (str: string) => {
+    return str.replace(/s$/, '');
+};
+
+
 export const generateTimeOptions = () => {
     const options = [];
     for (let hour = 9; hour <= 21; hour++) {

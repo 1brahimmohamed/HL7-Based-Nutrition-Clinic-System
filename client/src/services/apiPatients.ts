@@ -22,9 +22,9 @@ export const getPatient = async (id: string) => {
         throw new Error('Failed to fetch patient');
     }
 
-    const {data} = res;
+    const {patient} = res.data.data;
 
-    return data.data;
+    return patient;
 };
 
 export const deletePatient = async (id: string) => {
