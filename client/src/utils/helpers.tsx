@@ -6,7 +6,7 @@ export function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export const fireModal = (text: string, handleConfirm: ()=>void, icon: SweetAlertIcon = "question" ) => {
+export const fireModal = (text: string, handleConfirm: () => void, icon: SweetAlertIcon = "question") => {
     withReactContent(Swal).fire({
         title: text,
         icon: icon,
@@ -14,7 +14,7 @@ export const fireModal = (text: string, handleConfirm: ()=>void, icon: SweetAler
         confirmButtonText: "Yes",
         cancelButtonColor: "#d33",
         confirmButtonColor: "#002c1e",
-    }). then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             handleConfirm()
         }
@@ -22,7 +22,9 @@ export const fireModal = (text: string, handleConfirm: ()=>void, icon: SweetAler
 }
 
 export const toProperCase = (str: string) => {
-    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    return str.replace(/\w\S*/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
 }
 
 
@@ -37,9 +39,9 @@ export const generateTimeOptions = () => {
                 .padStart(2, "0")}`;
             options.push(
                 <option key={time} value={time}>
-                {time}
+                    {time}
                 </option>
-        );
+            );
         }
     }
     return options;

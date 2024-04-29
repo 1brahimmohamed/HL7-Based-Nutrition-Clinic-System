@@ -41,7 +41,7 @@ const AppointmentCard = ({appointment}: { appointment: IAppointment }) => {
         <li
             key={appointment._id}
             onClick={() => navigate(`/appointments/${appointmentId}`)}
-            className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow"
+            className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow hover:cursor-pointer"
         >
             <div className="flex w-full items-center justify-between space-x-6 p-6">
                 <div className="flex-1 truncate">
