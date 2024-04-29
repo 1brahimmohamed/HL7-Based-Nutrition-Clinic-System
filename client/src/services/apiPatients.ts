@@ -9,9 +9,9 @@ export const getAllPatients = async () => {
         throw new Error('Failed to fetch all patients');
     }
 
-    const { data } = res;
+    const {patients} = res.data.data;
 
-    return data.data;
+    return patients;
 };
 
 export const getPatient = async (id: string) => {
@@ -22,7 +22,7 @@ export const getPatient = async (id: string) => {
         throw new Error('Failed to fetch patient');
     }
 
-    const { data } = res;
+    const {data} = res;
 
     return data.data;
 };
@@ -53,3 +53,15 @@ export const updatePatient = async (id: string, updatedData: any) => {
         throw error;
     }
 };
+
+export const createPatient = async (newPatientData: any) => {
+    try {
+        const res = await axios.post(`${API_URL}`, newPatientData);
+        if (!res.data) {
+            throw new Error('Failed to create patient');
+        }
+        return res.data.data;
+    } catch (error) {
+        throw new Error('Error creating patient');
+    }
+}

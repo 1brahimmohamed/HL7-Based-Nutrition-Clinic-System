@@ -23,6 +23,7 @@ export interface IPatient extends IUser {
     fullName: string;
     birthdate: Date;
     associatedDoctor: string[];
+    job: string;
     phoneNumber: string;
     age: number;
     id: string;
