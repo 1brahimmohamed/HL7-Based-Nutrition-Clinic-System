@@ -1,6 +1,3 @@
-import NotFound from "./404.tsx";
+import NotFound from './404.tsx';
 
-
-export {
-    NotFound
-}
+export { NotFound };

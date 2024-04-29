@@ -1,14 +1,10 @@
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const LoginHeader = () => {
     return (
         <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
-                <img
-                    className="h-14 w-auto"
-                    src="/images/brand/logo-full-icon-right.png"
-                    alt="MDIMA Logo"
-                />
+                <img className="h-14 w-auto" src="/images/brand/logo-full-icon-right.png" alt="MDIMA Logo" />
                 <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
                     Sign in to your account
                 </h2>
@@ -20,7 +16,7 @@ const LoginHeader = () => {
                 </p>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default LoginHeader;

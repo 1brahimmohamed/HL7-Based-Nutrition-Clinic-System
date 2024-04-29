@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface IInputFieldProps {
     label: string;
@@ -16,23 +16,22 @@ interface IInputFieldProps {
 }
 
 const inputField = ({
-                        label,
-                        labelFor,
-                        inputId,
-                        inputName,
-                        inputType,
-                        autoComplete,
-                        isRequired = false,
-                        isReadOnly = false,
-                        className,
-                        containerClassName,
-                        value,
-                        onChange
-                    }: IInputFieldProps) => {
+    label,
+    labelFor,
+    inputId,
+    inputName,
+    inputType,
+    autoComplete,
+    isRequired = false,
+    isReadOnly = false,
+    className,
+    containerClassName,
+    value,
+    onChange
+}: IInputFieldProps) => {
     return (
         <div className={containerClassName}>
-            <label htmlFor={labelFor}
-                   className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor={labelFor} className="block text-sm font-medium leading-6 text-gray-900">
                 {label}
             </label>
             <div className="mt-2">
@@ -49,7 +48,7 @@ const inputField = ({
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default inputField;

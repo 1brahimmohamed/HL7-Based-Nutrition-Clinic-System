@@ -1,34 +1,33 @@
-import { useState } from 'react'
-import {
-    FolderIcon,
-    HomeIcon,
-    UsersIcon,
-} from '@heroicons/react/24/outline'
-import {Outlet} from "react-router-dom";
+import { useState } from 'react';
+import { FolderIcon, HomeIcon, UsersIcon } from '@heroicons/react/24/outline';
+import { Outlet } from 'react-router-dom';
 
-import MobileSidebar from "../MobileSidebar.tsx";
-import DesktopSidebar from "../DesktopSIdebar.tsx";
-import TopBar from "../Topbar.tsx";
-
+import MobileSidebar from '../MobileSidebar.tsx';
+import DesktopSidebar from '../DesktopSIdebar.tsx';
+import TopBar from '../Topbar.tsx';
 
 const navigation = [
     { name: 'Appointments', href: '/', icon: HomeIcon, current: true },
     { name: 'Patients', href: '/patients', icon: UsersIcon, current: false },
-    { name: 'PDF Viewer', href: '/pdf-viewer', icon: FolderIcon, current: false },
-]
+    { name: 'PDF Viewer', href: '/pdf-viewer', icon: FolderIcon, current: false }
+];
 const userNavigation = [
     { name: 'Your profile', href: '/settings' },
-    { name: 'Sign out', href: '/sign-out' },
-]
+    { name: 'Sign out', href: '/sign-out' }
+];
 
 export default function Example() {
-    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
         <>
             <div>
                 {/* Mobile sidebar */}
-                <MobileSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} navigation={navigation} />
+                <MobileSidebar
+                    sidebarOpen={sidebarOpen}
+                    setSidebarOpen={setSidebarOpen}
+                    navigation={navigation}
+                />
 
                 {/* Static sidebar for desktop */}
                 <DesktopSidebar navigation={navigation} />
@@ -44,5 +43,5 @@ export default function Example() {
                 </div>
             </div>
         </>
-    )
+    );
 }

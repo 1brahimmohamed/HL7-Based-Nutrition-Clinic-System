@@ -1,13 +1,12 @@
-import {Cog6ToothIcon} from "@heroicons/react/24/outline";
-import {classNames} from "../utils/helpers.tsx";
-import {Link, useLocation} from "react-router-dom";
+import { Cog6ToothIcon } from '@heroicons/react/24/outline';
+import { classNames } from '../utils/helpers.tsx';
+import { Link, useLocation } from 'react-router-dom';
 
 type TDesktopSidebarProps = {
-    navigation: any[],
-}
+    navigation: any[];
+};
 
-const DesktopSidebar = ({navigation}: TDesktopSidebarProps) => {
-
+const DesktopSidebar = ({ navigation }: TDesktopSidebarProps) => {
     const location = useLocation();
     const currentPath = location.pathname;
 
@@ -39,8 +38,9 @@ const DesktopSidebar = ({navigation}: TDesktopSidebarProps) => {
                                         >
                                             <item.icon
                                                 className={classNames(
-                                                    item.href === currentPath ?
-                                                        'text-white' : 'text-common-light group-hover:text-white',
+                                                    item.href === currentPath
+                                                        ? 'text-white'
+                                                        : 'text-common-light group-hover:text-white',
                                                     'h-6 w-6 shrink-0'
                                                 )}
                                                 aria-hidden="true"
@@ -60,11 +60,13 @@ const DesktopSidebar = ({navigation}: TDesktopSidebarProps) => {
                                         ? 'bg-secondary-dark text-white'
                                         : 'text-common-light hover:text-white hover:bg-secondary-dark hover:opacity-85',
                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                )}>
+                                )}
+                            >
                                 <Cog6ToothIcon
                                     className={classNames(
-                                        '/settings' === currentPath ?
-                                            'text-white' : 'text-common-light group-hover:text-white',
+                                        '/settings' === currentPath
+                                            ? 'text-white'
+                                            : 'text-common-light group-hover:text-white',
                                         'h-6 w-6 shrink-0'
                                     )}
                                     aria-hidden="true"
@@ -76,7 +78,7 @@ const DesktopSidebar = ({navigation}: TDesktopSidebarProps) => {
                 </nav>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default DesktopSidebar
+export default DesktopSidebar;

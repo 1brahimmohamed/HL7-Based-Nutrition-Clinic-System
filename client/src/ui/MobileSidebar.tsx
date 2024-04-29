@@ -1,23 +1,22 @@
-import {Dialog, Transition} from "@headlessui/react";
-import {Fragment} from "react";
-import {Cog6ToothIcon, XMarkIcon} from "@heroicons/react/24/outline";
-import {classNames} from "../utils/helpers.tsx";
-import {Link, useLocation} from "react-router-dom";
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
+import { Cog6ToothIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { classNames } from '../utils/helpers.tsx';
+import { Link, useLocation } from 'react-router-dom';
 
 type TMobileSidebarProps = {
-    sidebarOpen: boolean,
-    setSidebarOpen: (open: boolean) => void,
-    navigation: any[],
-}
+    sidebarOpen: boolean;
+    setSidebarOpen: (open: boolean) => void;
+    navigation: any[];
+};
 
-const MobileSidebar = ({sidebarOpen, setSidebarOpen, navigation}: TMobileSidebarProps) => {
-
+const MobileSidebar = ({ sidebarOpen, setSidebarOpen, navigation }: TMobileSidebarProps) => {
     const location = useLocation();
     const currentPath = location.pathname;
 
     return (
         <Transition.Root show={sidebarOpen} as={Fragment}>
-            <Dialog as="div" className={"relative z-50 lg:hidden"} onClose={setSidebarOpen}>
+            <Dialog as="div" className={'relative z-50 lg:hidden'} onClose={setSidebarOpen}>
                 <Transition.Child
                     as={Fragment}
                     enter="transition-opacity ease-linear duration-300"
@@ -51,7 +50,11 @@ const MobileSidebar = ({sidebarOpen, setSidebarOpen, navigation}: TMobileSidebar
                                 leaveTo="opacity-0"
                             >
                                 <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                                    <button type="button" className="-m-2.5 p-2.5" onClick={() => setSidebarOpen(false)}>
+                                    <button
+                                        type="button"
+                                        className="-m-2.5 p-2.5"
+                                        onClick={() => setSidebarOpen(false)}
+                                    >
                                         <span className="sr-only">Close sidebar</span>
                                         <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                     </button>
@@ -84,7 +87,8 @@ const MobileSidebar = ({sidebarOpen, setSidebarOpen, navigation}: TMobileSidebar
                                                             <item.icon
                                                                 className={classNames(
                                                                     item.href === currentPath
-                                                                        ? 'text-white' : 'text-common-main group-hover:text-white',
+                                                                        ? 'text-white'
+                                                                        : 'text-common-main group-hover:text-white',
                                                                     'h-6 w-6 shrink-0'
                                                                 )}
                                                                 aria-hidden="true"
@@ -103,13 +107,16 @@ const MobileSidebar = ({sidebarOpen, setSidebarOpen, navigation}: TMobileSidebar
                                                         ? 'bg-secondary-dark text-white'
                                                         : 'text-common-light hover:text-white hover:bg-secondary-dark hover:opacity-85',
                                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                )} >
+                                                )}
+                                            >
                                                 <Cog6ToothIcon
                                                     className={classNames(
-                                                        '/settings' === currentPath ?
-                                                            'text-white' : 'text-common-light group-hover:text-white',
+                                                        '/settings' === currentPath
+                                                            ? 'text-white'
+                                                            : 'text-common-light group-hover:text-white',
                                                         'h-6 w-6 shrink-0'
-                                                    )}                                                    aria-hidden="true"
+                                                    )}
+                                                    aria-hidden="true"
                                                 />
                                                 Settings
                                             </Link>
@@ -122,7 +129,7 @@ const MobileSidebar = ({sidebarOpen, setSidebarOpen, navigation}: TMobileSidebar
                 </div>
             </Dialog>
         </Transition.Root>
-    )
-}
+    );
+};
 
-export default MobileSidebar
+export default MobileSidebar;

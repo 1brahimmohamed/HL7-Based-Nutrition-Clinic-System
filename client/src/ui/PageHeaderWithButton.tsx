@@ -1,22 +1,20 @@
-
-
 type TPageHeaderWithButtonProps = {
     title: string;
     description: string;
     buttonText: string;
     buttonOnClick: () => void;
-}
-const PageHeaderWithButton = ({ title, description, buttonText, buttonOnClick }: TPageHeaderWithButtonProps ) => {
-
+};
+const PageHeaderWithButton = ({
+    title,
+    description,
+    buttonText,
+    buttonOnClick
+}: TPageHeaderWithButtonProps) => {
     return (
         <div className="sm:flex sm:items-center mb-10">
             <div className="sm:flex-auto">
-                <h1 className="text-3xl font-semibold leading-6 text-gray-900">
-                    {title}
-                </h1>
-                <p className="mt-2 text-sm text-gray-700">
-                    {description}
-                </p>
+                <h1 className="text-3xl font-semibold leading-6 text-gray-900">{title}</h1>
+                <p className="mt-2 text-sm text-gray-700">{description}</p>
             </div>
             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                 <button
@@ -28,7 +26,7 @@ const PageHeaderWithButton = ({ title, description, buttonText, buttonOnClick }:
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default PageHeaderWithButton
+export default PageHeaderWithButton;
