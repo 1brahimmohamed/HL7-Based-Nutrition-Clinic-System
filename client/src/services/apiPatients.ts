@@ -39,9 +39,18 @@ export const deletePatient = async (id: string) => {
     }
 };
 
-export const updatePatient = async (id: string, updatedData: any) => {
+export const updatePatientLastInBodyScores = async (id: string, updatedScores: any, oldScores?: any) => {
+
+    let lastScore = oldScores[0]
+    lastScore = {
+        ...lastScore,
+        ...updatedScores
+    }
+
+    oldScores[0] = lastScore
+
     try {
-        const res = await axios.put(`${API_URL}/${id}`, updatedData);
+        const res = await axios.patch(`${API_URL}/${id}/medical-history`, {inBodyScores: oldScores});
         if (!res.data) {
             console.error('Error updating patient:', res.data);
             throw new Error('Failed to update patient');
@@ -53,6 +62,19 @@ export const updatePatient = async (id: string, updatedData: any) => {
         throw error;
     }
 };
+
+export const updatePatientMedicalHistory = async (id: string, updatedHistory: any) => {
+    try {
+        const res = await axios.patch(`${API_URL}/${id}/medical-history`, updatedHistory);
+        if (!res.data) {
+            throw new Error('Failed to update patient');
+        }
+        return res.data.data;
+    } catch (error) {
+        throw new Error('Error updating patient');
+    }
+
+}
 
 export const createPatient = async (newPatientData: any) => {
     try {

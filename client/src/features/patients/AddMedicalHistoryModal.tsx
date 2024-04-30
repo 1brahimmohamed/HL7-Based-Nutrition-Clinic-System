@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { camelCaseToProperCase} from "../../utils/helpers.tsx";
 
+
 interface AddMedicalHistoryModalProps {
     onCloseModal: () => void;
-    onAddItem: (item: string) => void;
+    onAddItem: (item: string, sectionName: string) => void;
     sectionName: string;
 }
 
@@ -14,12 +15,13 @@ const AddMedicalHistoryModal: React.FC<AddMedicalHistoryModalProps> = ({ onClose
         setItem(e.target.value);
     };
 
+
     const handleAddItem = () => {
         if (item.trim() === '') {
             // Don't add empty item
             return;
         }
-        onAddItem(item);
+        onAddItem(item, sectionName);
         onCloseModal();
     };
 

@@ -1,4 +1,3 @@
-
 type TDisplayFieldProps = {
     label: string;
     value: string;
@@ -11,6 +10,7 @@ type TDisplayFieldProps = {
     containerClassName?: string;
     className?: string;
     defaultInputValue?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const DisplayField = ({
@@ -24,12 +24,13 @@ const DisplayField = ({
                           inputType,
                           containerClassName,
                           className,
+                          onChange
                       }: TDisplayFieldProps) => {
 
 
     if (!isEditable) {
         return (
-            <div className={`${containerClassName? containerClassName : "sm:col-span-2"} `}>
+            <div className={`${containerClassName ? containerClassName : "sm:col-span-2"} `}>
                 <label
                     htmlFor={labelFor}
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -63,6 +64,7 @@ const DisplayField = ({
                         value={value}
                         className={`block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm sm:text-sm sm:leading-6 ${className}`}
                         defaultValue="10"
+                        onChange={onChange}
                     />
                 ) : (
                     <span

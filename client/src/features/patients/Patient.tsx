@@ -1,20 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import MedicalHistory from './MedicalHistory.tsx';
 import DisplayField from '../../ui/DisplayField.tsx';
 import PageHeader from '../../ui/PageHeader.tsx';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import EditableField from '../../ui/EditableField.tsx'; // Import EditableField component
-import { useParams } from 'react-router-dom';
-import { getPatient, updatePatient } from '../../services/apiPatients.ts';
+import {useParams} from 'react-router-dom';
+import {getPatient, updatePatientLastInBodyScores} from '../../services/apiPatients.ts';
 import Loading from '../../ui/Loading.tsx';
 
+
+type TEditedPatientData = {
+    score: string | null;
+    weight: string | null;
+    weightControl: string | null;
+    targetWeight: string | null;
+    fatPercentage: string | null;
+    musclePercentage: string | null;
+}
+
 export default function Patient() {
-    const { id } = useParams();
+    const {id} = useParams();
 
     const queryClient = useQueryClient();
 
-    const { data: patient, isLoading } = useQuery({
+    const {data: patient, isLoading} = useQuery({
         queryKey: ['patient', id],
         queryFn: () => getPatient(id as string)
     });
@@ -23,37 +32,18 @@ export default function Patient() {
     const [editMode, setEditMode] = useState(false);
 
     // State to manage edited patient data
-    const [editedPatientData, setEditedPatientData] = useState<{
-        score: string | null;
-        weight: string | null;
-        weightControl: string | null;
-        targetWeight: string | null;
-        fat: string | null;
-        muscle: string | null;
-    }>({
+    const [editedPatientData, setEditedPatientData] = useState<TEditedPatientData>({
         score: null,
         weight: null,
         weightControl: null,
         targetWeight: null,
-        fat: null,
-        muscle: null
+        fatPercentage: null,
+        musclePercentage: null
     });
-    // const [editedPatientData, setEditedPatientData] = useState({
-    //     score: null,
-    //     weight: null,
-    //     weightControl: null,
-    //     targetWeight: null,
-    //     fat: null,
-    //     muscle: null
-    // });
-
-    // Define lastInBodyScores within the scope of the component
-    const lastInBodyScores =
-        patient?.medicalHistory?.inBodyScores?.[patient.medicalHistory.inBodyScores.length - 1] || null;
 
     // Mutation hook for updating patient data
-    const { mutate: updatePatientMutate } = useMutation({
-        mutationFn: updatePatient,
+    const {mutate: updateLastInBodyScores} = useMutation({
+        mutationFn: ({id, updatedData}: { id: string; updatedData: TEditedPatientData }) => updatePatientLastInBodyScores(id, updatedData, patient.medicalHistory.inBodyScores),
         onError: (err: Error) => {
             toast.error(err.message, {
                 duration: 2500
@@ -74,83 +64,57 @@ export default function Patient() {
     useEffect(() => {
         if (patient && patient.medicalHistory && patient.medicalHistory.inBodyScores.length > 0) {
             const lastInBodyScores =
-                patient.medicalHistory.inBodyScores[patient.medicalHistory.inBodyScores.length - 1];
-            setEditedPatientData(lastInBodyScores);
+                patient.medicalHistory.inBodyScores[0];
+            setEditedPatientData({
+                score: lastInBodyScores.score,
+                weight: lastInBodyScores.weight,
+                weightControl: lastInBodyScores.weightControl,
+                targetWeight: lastInBodyScores.targetWeight,
+                fatPercentage: lastInBodyScores.fatPercentage,
+                musclePercentage: lastInBodyScores.musclePercentage
+            });
         } else {
             // If no existing data, set editedPatientData to an empty object
             setEditedPatientData({
-                score: null,
-                weight: null,
-                weightControl: null,
-                targetWeight: null,
-                fat: null,
-                muscle: null
+                score: '',
+                weight: '',
+                weightControl: '',
+                targetWeight: '',
+                fatPercentage: '',
+                musclePercentage: ''
             });
         }
     }, [patient]);
+
+
     // Handle edit toggle
     const handleEditToggle = () => {
         setEditMode(!editMode);
     };
 
-    const handleScoreChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditedPatientData({
             ...editedPatientData,
-            score: e.target.value
-        });
-    };
-
-    const handleWeightChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setEditedPatientData({
-            ...editedPatientData,
-            weight: e.target.value
-        });
-    };
-
-    const handleWeightControlChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setEditedPatientData({
-            ...editedPatientData,
-            weightControl: e.target.value
-        });
-    };
-
-    const handleTargetWeightChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setEditedPatientData({
-            ...editedPatientData,
-            targetWeight: e.target.value
-        });
-    };
-
-    const handleFatChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setEditedPatientData({
-            ...editedPatientData,
-            fat: e.target.value
-        });
-    };
-
-    const handleMuscleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setEditedPatientData({
-            ...editedPatientData,
-            muscle: e.target.value
+            [e.target.name]: e.target.value
         });
     };
 
     // Save changes
     const saveChanges = async () => {
         // Call mutation to update patient data
-        updatePatientMutate({
+        updateLastInBodyScores({
             id: patient._id,
             updatedData: editedPatientData
         });
     };
 
     if (isLoading) {
-        return <Loading />;
+        return <Loading/>;
     }
     return (
         <div className="px-4 sm:px-6 lg:px-8">
             <PageHeader
-                title={${patient.firstName} ${patient.lastName}}
+                title={`${patient.firstName} ${patient.lastName}`}
                 description={'A detailed view of this patient.'}
                 isInEditMode={editMode}
                 isInEditModeText={'Save Changes'}
@@ -166,9 +130,9 @@ export default function Patient() {
                             Personal Information
                         </h2>
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <DisplayField label={'First Name'} value={patient.firstName} />
-                            <DisplayField label={'Last Name'} value={patient.lastName} />
-                            <DisplayField label={'Email'} value={patient.email} />
+                            <DisplayField label={'First Name'} value={patient.firstName}/>
+                            <DisplayField label={'Last Name'} value={patient.lastName}/>
+                            <DisplayField label={'Email'} value={patient.email}/>
                             <DisplayField
                                 label={'Phone Number'}
                                 value={patient.phoneNumber}
@@ -179,9 +143,9 @@ export default function Patient() {
                                 value={patient.address}
                                 containerClassName={'sm:col-span-5'}
                             />
-                            <DisplayField label={'Gender'} value={patient.gender} />
-                            <DisplayField label={'Age'} value={patient.age} />
-                            <DisplayField label={'Job'} value={patient.job} />
+                            <DisplayField label={'Gender'} value={patient.gender}/>
+                            <DisplayField label={'Age'} value={patient.age}/>
+                            <DisplayField label={'Job'} value={patient.job}/>
                         </div>
                     </div>
 
@@ -190,71 +154,84 @@ export default function Patient() {
                             InBody Test Results
                         </h2>
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 mb-10 sm:grid-cols-6">
+
                             <DisplayField
                                 label={'Score'}
-                                value={lastInBodyScores?.score}
+                                inputId={'score'}
+                                labelFor={'score'}
+                                inputName={'score'}
+                                inputType={'number'}
+                                value={editedPatientData.score!}
+                                onChange={handleInputChange}
                                 isEditable={true}
                                 isInEditMode={editMode}
-                            >
-                                <textarea value={lastInBodyScores?.score} onChange={handleScoreChange} />
-                            </DisplayField>
+                            />
 
                             <DisplayField
                                 label={'Weight'}
-                                value={lastInBodyScores?.weight}
+                                inputId={'weight'}
+                                labelFor={'weight'}
+                                inputName={'weight'}
+                                inputType={'number'}
+                                value={editedPatientData.weight!}
                                 isEditable={true}
+                                onChange={handleInputChange}
+
                                 isInEditMode={editMode}
-                            >
-                                <textarea value={lastInBodyScores?.weight} onChange={handleWeightChange} />
-                            </DisplayField>
+                            />
 
                             <DisplayField
                                 label={'Weight Control'}
-                                value={lastInBodyScores?.weightControl}
+                                inputId={'weightControl'}
+                                labelFor={'weightControl'}
+                                inputName={'weightControl'}
+                                inputType={'number'}
+                                value={editedPatientData.weightControl!}
                                 isEditable={true}
+                                onChange={handleInputChange}
+
                                 isInEditMode={editMode}
-                            >
-                                <textarea
-                                    value={lastInBodyScores?.weightControl}
-                                    onChange={handleWeightControlChange}
-                                />
-                            </DisplayField>
+                            />
 
                             <DisplayField
                                 label={'Target Weight'}
-                                value={lastInBodyScores?.targetWeight}
+                                inputId={'targetWeight'}
+                                labelFor={'targetWeight'}
+                                inputName={'targetWeight'}
+                                inputType={'number'}
+                                value={editedPatientData.targetWeight!}
                                 isEditable={true}
+                                onChange={handleInputChange}
+
                                 isInEditMode={editMode}
-                            >
-                                <textarea
-                                    value={lastInBodyScores?.targetWeight}
-                                    onChange={handleTargetWeightChange}
-                                />
-                            </DisplayField>
+                            />
 
                             <DisplayField
                                 label={'Fat'}
-                                value={lastInBodyScores?.fatPercentage}
+                                inputId={'fatPercentage'}
+                                labelFor={'fatPercentage'}
+                                inputName={'fatPercentage'}
+                                inputType={'number'}
+                                value={editedPatientData.fatPercentage!}
                                 isEditable={true}
+                                onChange={handleInputChange}
+
                                 isInEditMode={editMode}
-                            >
-                                <textarea
-                                    value={lastInBodyScores?.fatPercentage}
-                                    onChange={handleFatChange}
-                                />
-                            </DisplayField>
+                            />
 
                             <DisplayField
                                 label={'Muscle'}
-                                value={lastInBodyScores?.musclePercentage}
+                                inputId={'musclePercentage'}
+                                labelFor={'musclePercentage'}
+                                inputName={'musclePercentage'}
+                                inputType={'number'}
+                                value={editedPatientData.musclePercentage!}
                                 isEditable={true}
+                                onChange={handleInputChange}
+
                                 isInEditMode={editMode}
-                            >
-                                <textarea
-                                    value={lastInBodyScores?.musclePercentage}
-                                    onChange={handleMuscleChange}
-                                />
-                            </DisplayField>
+                            />
+
                         </div>
                     </div>
 
@@ -264,7 +241,7 @@ export default function Patient() {
                             Patients Medical information.
                         </p>
 
-                        <MedicalHistory history={patient.medicalHistory} />
+                        <MedicalHistory history={patient.medicalHistory} patientId={patient._id}/>
                     </div>
                 </div>
                 {/* <div className="mt-6 flex items-center justify-end gap-x-6">
