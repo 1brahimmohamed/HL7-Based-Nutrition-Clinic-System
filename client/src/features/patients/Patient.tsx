@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import MedicalHistory from './MedicalHistory.tsx';
 import DisplayField from '../../ui/DisplayField.tsx';
 import PageHeader from '../../ui/PageHeader.tsx';
-import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import {useParams} from 'react-router-dom';
-import {getPatient, updatePatientLastInBodyScores} from '../../services/apiPatients.ts';
+import { useParams } from 'react-router-dom';
+import { getPatient, updatePatientLastInBodyScores } from '../../services/apiPatients.ts';
 import Loading from '../../ui/Loading.tsx';
-
+import SelectInput from '../../ui/SelectInput.tsx';
 
 type TEditedPatientData = {
     score: string | null;
@@ -16,20 +16,22 @@ type TEditedPatientData = {
     targetWeight: string | null;
     fatPercentage: string | null;
     musclePercentage: string | null;
-}
+};
 
 export default function Patient() {
-    const {id} = useParams();
+    const { id } = useParams();
 
     const queryClient = useQueryClient();
 
-    const {data: patient, isLoading} = useQuery({
+    const { data: patient, isLoading } = useQuery({
         queryKey: ['patient', id],
         queryFn: () => getPatient(id as string)
     });
 
     // State to manage edit mode
     const [editMode, setEditMode] = useState(false);
+    // State to manage selected clinic
+    const [selectedClinic, setSelectedClinic] = useState('');
 
     // State to manage edited patient data
     const [editedPatientData, setEditedPatientData] = useState<TEditedPatientData>({
@@ -42,8 +44,9 @@ export default function Patient() {
     });
 
     // Mutation hook for updating patient data
-    const {mutate: updateLastInBodyScores} = useMutation({
-        mutationFn: ({id, updatedData}: { id: string; updatedData: TEditedPatientData }) => updatePatientLastInBodyScores(id, updatedData, patient.medicalHistory.inBodyScores),
+    const { mutate: updateLastInBodyScores } = useMutation({
+        mutationFn: ({ id, updatedData }: { id: string; updatedData: TEditedPatientData }) =>
+            updatePatientLastInBodyScores(id, updatedData, patient.medicalHistory.inBodyScores),
         onError: (err: Error) => {
             toast.error(err.message, {
                 duration: 2500
@@ -63,8 +66,7 @@ export default function Patient() {
     // Set edited patient data when patient data is available
     useEffect(() => {
         if (patient && patient.medicalHistory && patient.medicalHistory.inBodyScores.length > 0) {
-            const lastInBodyScores =
-                patient.medicalHistory.inBodyScores[0];
+            const lastInBodyScores = patient.medicalHistory.inBodyScores[0];
             setEditedPatientData({
                 score: lastInBodyScores.score,
                 weight: lastInBodyScores.weight,
@@ -85,7 +87,6 @@ export default function Patient() {
             });
         }
     }, [patient]);
-
 
     // Handle edit toggle
     const handleEditToggle = () => {
@@ -109,8 +110,11 @@ export default function Patient() {
     };
 
     if (isLoading) {
-        return <Loading/>;
+        return <Loading />;
     }
+
+    const clinics = ['Clinic 1', 'Clinic 2', 'Clinic 3']; // Example list of clinics
+
     return (
         <div className="px-4 sm:px-6 lg:px-8">
             <PageHeader
@@ -123,6 +127,37 @@ export default function Patient() {
                 editToggle={handleEditToggle}
             />
 
+            <div className="flex justify-end mb-4">
+                <div className="flex items-center space-x-4">
+                    {/* Custom multiselect dropdown */}
+                    <SelectInput
+                        label={''}
+                        labelFor={'clinic'}
+                        selectId={'clinic'}
+                        selectName={'clinic'}
+                        defaultOption={'Select Clinic'}
+                        className={''}
+                        containerClassName={''}
+                        value={selectedClinic}
+                        onChange={(e) => setSelectedClinic(e.target.value)}
+                    >
+                        {clinics.map((clinic, index) => (
+                            <option key={index} value={clinic}>
+                                {clinic}
+                            </option>
+                        ))}
+                    </SelectInput>
+
+                    {/* Button */}
+                    <button
+                        onClick={() => {}}
+                        className="block rounded-md bg-secondary-light px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-secondary-main focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                        Refer Patient
+                    </button>
+                </div>
+            </div>
+
             <form>
                 <div className="space-y-12">
                     <div className="border-b border-gray-900/10 pb-12">
@@ -130,9 +165,9 @@ export default function Patient() {
                             Personal Information
                         </h2>
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <DisplayField label={'First Name'} value={patient.firstName}/>
-                            <DisplayField label={'Last Name'} value={patient.lastName}/>
-                            <DisplayField label={'Email'} value={patient.email}/>
+                            <DisplayField label={'First Name'} value={patient.firstName} />
+                            <DisplayField label={'Last Name'} value={patient.lastName} />
+                            <DisplayField label={'Email'} value={patient.email} />
                             <DisplayField
                                 label={'Phone Number'}
                                 value={patient.phoneNumber}
@@ -143,9 +178,9 @@ export default function Patient() {
                                 value={patient.address}
                                 containerClassName={'sm:col-span-5'}
                             />
-                            <DisplayField label={'Gender'} value={patient.gender}/>
-                            <DisplayField label={'Age'} value={patient.age}/>
-                            <DisplayField label={'Job'} value={patient.job}/>
+                            <DisplayField label={'Gender'} value={patient.gender} />
+                            <DisplayField label={'Age'} value={patient.age} />
+                            <DisplayField label={'Job'} value={patient.job} />
                         </div>
                     </div>
 
@@ -154,7 +189,6 @@ export default function Patient() {
                             InBody Test Results
                         </h2>
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 mb-10 sm:grid-cols-6">
-
                             <DisplayField
                                 label={'Score'}
                                 inputId={'score'}
@@ -176,7 +210,6 @@ export default function Patient() {
                                 value={editedPatientData.weight!}
                                 isEditable={true}
                                 onChange={handleInputChange}
-
                                 isInEditMode={editMode}
                             />
 
@@ -189,7 +222,6 @@ export default function Patient() {
                                 value={editedPatientData.weightControl!}
                                 isEditable={true}
                                 onChange={handleInputChange}
-
                                 isInEditMode={editMode}
                             />
 
@@ -202,7 +234,6 @@ export default function Patient() {
                                 value={editedPatientData.targetWeight!}
                                 isEditable={true}
                                 onChange={handleInputChange}
-
                                 isInEditMode={editMode}
                             />
 
@@ -215,7 +246,6 @@ export default function Patient() {
                                 value={editedPatientData.fatPercentage!}
                                 isEditable={true}
                                 onChange={handleInputChange}
-
                                 isInEditMode={editMode}
                             />
 
@@ -228,10 +258,8 @@ export default function Patient() {
                                 value={editedPatientData.musclePercentage!}
                                 isEditable={true}
                                 onChange={handleInputChange}
-
                                 isInEditMode={editMode}
                             />
-
                         </div>
                     </div>
 
@@ -241,7 +269,7 @@ export default function Patient() {
                             Patients Medical information.
                         </p>
 
-                        <MedicalHistory history={patient.medicalHistory} patientId={patient._id}/>
+                        <MedicalHistory history={patient.medicalHistory} patientId={patient._id} />
                     </div>
                 </div>
                 {/* <div className="mt-6 flex items-center justify-end gap-x-6">
