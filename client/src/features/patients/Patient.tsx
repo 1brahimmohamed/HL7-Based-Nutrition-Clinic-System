@@ -22,7 +22,7 @@ type TEditedPatientData = {
     musclePercentage: string | null;
 };
 
-const clinics = ['Clinic 1', 'Clinic 2', 'Clinic 3']; // Example list of clinics
+const clinics = ['Clinic 1', 'Clinic 2']; // Example list of clinics
 
 
 export default function Patient() {
@@ -86,12 +86,12 @@ export default function Patient() {
         } else {
             // If no existing data, set editedPatientData to an empty object
             setEditedPatientData({
-                score: '',
-                weight: '',
-                weightControl: '',
-                targetWeight: '',
-                fatPercentage: '',
-                musclePercentage: ''
+                score: ' ',
+                weight: ' ',
+                weightControl: ' ',
+                targetWeight: ' ',
+                fatPercentage: ' ',
+                musclePercentage: ' '
             });
         }
     }, [patient]);
@@ -127,10 +127,10 @@ export default function Patient() {
             return;
         }
 
-        const message = await referencePatientToAnotherClinic(id!, selectedClinic);
+        const res = await referencePatientToAnotherClinic(id!, selectedClinic);
 
-        if (message) {
-            toast.success(message, {
+        if (res.status === 'success') {
+            toast.success(res.message, {
                 duration: 2500
             });
 

@@ -5,3 +5,22 @@ export const filterObj = (obj: any, ...allowedFields: any) => {
     });
     return newObj;
 };
+
+export const correctParsedMessage =  (patientParsedData: any) => {
+    switch (patientParsedData.gender) {
+        case "M":
+            patientParsedData.gender = "male";
+            break;
+        case "F":
+            patientParsedData.gender = "female";
+            break;
+        default:
+            patientParsedData.gender = "other";
+    }
+
+    patientParsedData.associatedDoctor = null;
+
+    return patientParsedData
+}
+
+

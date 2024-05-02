@@ -95,8 +95,8 @@ export const referencePatientToAnotherClinic = async (id: string, clinicId: stri
         if (!res.data) {
             throw new Error('Failed to refer patient');
         }
-        return res.data.message;
+        return res.data;
     } catch (error) {
-        throw new Error('Error referring patient');
+        return error;
     }
 }

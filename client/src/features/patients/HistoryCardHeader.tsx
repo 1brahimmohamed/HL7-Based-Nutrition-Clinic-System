@@ -1,9 +1,6 @@
 import {Avatar} from "@mui/material";
 import React, {useState} from "react";
-import {Menu, Transition} from "@headlessui/react";
-import {EllipsisHorizontalIcon} from "@heroicons/react/20/solid";
-import {Fragment} from "react";
-import {camelCaseToProperCase, classNames, toProperCase} from "../../utils/helpers.tsx";
+import {camelCaseToProperCase, toProperCase} from "../../utils/helpers.tsx";
 import {green} from "@mui/material/colors";
 import AddMedicalHistoryModal from "./AddMedicalHistoryModal";
 

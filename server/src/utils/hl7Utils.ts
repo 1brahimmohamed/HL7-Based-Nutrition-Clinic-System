@@ -301,94 +301,97 @@ export function hl7ToJSON(hl7Message: string): Record<string, any> {
     };
 
     // Traverse through each segment in the parsed message
-    parsedMessage.segments.forEach((segment: any) => {
-        const segmentName = segment.name;
+    parsedMessage.segments.forEach((segment: any, index: number) => {
+            const segmentName = segment.name;
 
-        // Traverse through each field in the segment
-        segment.fields.forEach((field: any, index: number) => {
-            var fieldValue = field.value[0][0].value[0];
-            // // Store the field value in the segmentData object based on field position
-            switch (segmentName) {
-                case 'PID':
-                    switch (index) {
-                        case 1:
-                            patientRecord._id = fieldValue;
-                            break;
-                        case 4: {
-                            patientRecord.lastName = fieldValue;
-                            patientRecord.firstName = field.value[0][1].value[0];
-                        }
-                            break;
-                        case 6:
-                            patientRecord.birthdate = fieldValue;
-                            break;
-                        case 7:
-                            patientRecord.gender = fieldValue;
-                            break;
-                        case 8:
-                            patientRecord.job = fieldValue;
-                            break;                            
-                        case 10:
-                            patientRecord.address = fieldValue;
-                            break;
-                        case 12:
-                            patientRecord.phoneNumber = fieldValue;
-                            break;
-                        case 13:
-                            patientRecord.email = fieldValue;
-                            break;                            
-                }
-                    break;
-                case 'PV1':
-                    if (index === 7) patientRecord.associatedDoctor = [fieldValue];
-                    break;
-                case 'AL1':
-                    switch (index) {
-                        case 2:
-                            patientRecord.medicalHistory.allergies.push(fieldValue);
-                            break;
-                    }
-                    break;
-                case 'DG1':
-                    switch (index) {
-                        case 2:
-                            patientRecord.medicalHistory.medicalConditions.push(fieldValue);
-                            break;
-                    }
-                    break;
+            // Traverse through each field in the segment
+            segment.fields.forEach((field: any, index: number) => {
+                const fieldValue = field.value[0][0].value[0];
 
-                case 'OBX':
-                    switch (index) {
-                        case 2:
-                            if (fieldValue === 'medications') {
-                                patientRecord.medicalHistory.medications.push(field.value[0][0].value[0]);
-                            } else if (fieldValue === 'surgeries') {
-                                patientRecord.medicalHistory.surgeries.push(field.value[0][0].value[0]);
-                            } else if (fieldValue === 'date') {
-                                patientRecord.medicalHistory.inBodyScores[0].date = field.value[0][0].value[0];
-                            } else if (fieldValue === 'score') {
-                                patientRecord.medicalHistory.inBodyScores[0].score = parseInt(field.value[0][0].value[0]);
-                            } else if (fieldValue === 'Weight') {
-                                patientRecord.medicalHistory.inBodyScores[0].weight = parseInt(field.value[0][0].value[0]);
-                            } else if (fieldValue === 'Height') {
-                                patientRecord.medicalHistory.inBodyScores[0].height = parseInt(field.value[0][0].value[0]);
-                            } else if (fieldValue === 'targetWeight') {
-                                patientRecord.medicalHistory.inBodyScores[0].targetWeight = parseInt(field.value[0][0].value[0]);
-                            } else if (fieldValue === 'weightControl') {
-                                patientRecord.medicalHistory.inBodyScores[0].weightControl = parseInt(field.value[0][0].value[0]);
-                            } else if (fieldValue === 'fatPercentage') {
-                                patientRecord.medicalHistory.inBodyScores[0].fatPercentage = parseInt(field.value[0][0].value[0]);
-                            } else if (fieldValue === 'musclePercentage') {
-                                patientRecord.medicalHistory.inBodyScores[0].musclePercentage = parseInt(field.value[0][0].value[0]);
+                // // Store the field value in the segmentData object based on field position
+                switch (segmentName) {
+                    case 'PID':
+                        switch (index) {
+                            case 1:
+                                patientRecord._id = fieldValue;
+                                break;
+                            case 4: {
+                                patientRecord.lastName = fieldValue;
+                                patientRecord.firstName = field.value[0][1].value[0];
                             }
-                            break;
-                    }
-                    break;
-            }
-        });
-    });
+                                break;
+                            case 6:
+                                patientRecord.birthdate = fieldValue;
+                                break;
+                            case 7:
+                                patientRecord.gender = fieldValue;
+                                break;
+                            case 8:
+                                patientRecord.job = fieldValue;
+                                break;
+                            case 10:
+                                patientRecord.address = fieldValue;
+                                break;
+                            case 12:
+                                patientRecord.phoneNumber = fieldValue;
+                                break;
+                            case 13:
+                                patientRecord.email = fieldValue;
+                                break;
+                        }
+                        break;
+                    case 'PV1':
+                        if (index === 7) patientRecord.associatedDoctor = [fieldValue];
+                        break;
+                    case 'AL1':
+                        switch (index) {
+                            case 2:
+                                patientRecord.medicalHistory.allergies.push(fieldValue);
+                                break;
+                        }
+                        break;
+                    case 'DG1':
+                        switch (index) {
+                            case 2:
+                                patientRecord.medicalHistory.medicalConditions.push(fieldValue);
+                                break;
+                        }
+                        break;
+                }
+            });
 
-    console.log(patientRecord);
-    console.log(result);
+            // get only the OBX segments
+            if (segmentName === 'OBX') {
+
+                const fieldValue = segment.fields[2].value[0][0].value[0]
+                console.log(fieldValue, segment.fields[4].value[0][0].value[0])
+                if (fieldValue === 'Medications') {
+                    patientRecord.medicalHistory.medications.push(segment.fields[4].value[0][0].value[0]);
+                } else if (fieldValue === 'Surgeries') {
+                    patientRecord.medicalHistory.surgeries.push(segment.fields[4].value[0][0].value[0]);
+                } else if (fieldValue === 'date') {
+                    patientRecord.medicalHistory.inBodyScores[0].date = new Date(segment.fields[4].value[0][0].value[0]);
+                } else if (fieldValue === 'score') {
+                    patientRecord.medicalHistory.inBodyScores[0].score = parseInt(segment.fields[4].value[0][0].value[0]);
+                } else if (fieldValue === 'Weight') {
+                    patientRecord.medicalHistory.inBodyScores[0].weight = parseInt(segment.fields[4].value[0][0].value[0]);
+                } else if (fieldValue === 'Height') {
+                    patientRecord.medicalHistory.inBodyScores[0].height = parseInt(segment.fields[4].value[0][0].value[0]);
+                } else if (fieldValue === 'targetWeight') {
+                    patientRecord.medicalHistory.inBodyScores[0].targetWeight = parseInt(segment.fields[4].value[0][0].value[0]);
+                } else if (fieldValue === 'weightControl') {
+                    patientRecord.medicalHistory.inBodyScores[0].weightControl = parseInt(segment.fields[4].value[0][0].value[0]);
+                } else if (fieldValue === 'fatPercentage') {
+                    patientRecord.medicalHistory.inBodyScores[0].fatPercentage = parseInt(segment.fields[4].value[0][0].value[0]);
+                } else if (fieldValue === 'musclePercentage') {
+                    patientRecord.medicalHistory.inBodyScores[0].musclePercentage = parseInt(segment.fields[4].value[0][0].value[0]);
+                }
+            }
+
+
+        }
+    )
+    ;
+
     return patientRecord;
 }
