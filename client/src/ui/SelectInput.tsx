@@ -5,9 +5,9 @@ type TSelectInputProps = {
     labelFor: string;
     selectId: string;
     selectName: string;
-    defaultOption: string;
-    className: string;
-    containerClassName: string;
+    defaultOption?: string;
+    className?: string;
+    containerClassName?: string;
     value: string;
     onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     children: React.ReactNode;

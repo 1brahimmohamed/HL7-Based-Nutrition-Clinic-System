@@ -87,3 +87,16 @@ export const createPatient = async (newPatientData: any) => {
         throw new Error('Error creating patient');
     }
 }
+
+
+export const referencePatientToAnotherClinic = async (id: string, clinicId: string) => {
+    try {
+        const res = await axios.post(`${API_URL}/${id}/refer`, {clinicId});
+        if (!res.data) {
+            throw new Error('Failed to refer patient');
+        }
+        return res.data.message;
+    } catch (error) {
+        throw new Error('Error referring patient');
+    }
+}

@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import MedicalHistory from './MedicalHistory.tsx';
 import DisplayField from '../../ui/DisplayField.tsx';
 import PageHeader from '../../ui/PageHeader.tsx';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
-import { getPatient, updatePatientLastInBodyScores } from '../../services/apiPatients.ts';
+import {useParams} from 'react-router-dom';
+import {
+    getPatient,
+    referencePatientToAnotherClinic,
+    updatePatientLastInBodyScores
+} from '../../services/apiPatients.ts';
 import Loading from '../../ui/Loading.tsx';
 import SelectInput from '../../ui/SelectInput.tsx';
 
@@ -18,12 +22,15 @@ type TEditedPatientData = {
     musclePercentage: string | null;
 };
 
+const clinics = ['Clinic 1', 'Clinic 2', 'Clinic 3']; // Example list of clinics
+
+
 export default function Patient() {
-    const { id } = useParams();
+    const {id} = useParams();
 
     const queryClient = useQueryClient();
 
-    const { data: patient, isLoading } = useQuery({
+    const {data: patient, isLoading} = useQuery({
         queryKey: ['patient', id],
         queryFn: () => getPatient(id as string)
     });
@@ -44,8 +51,8 @@ export default function Patient() {
     });
 
     // Mutation hook for updating patient data
-    const { mutate: updateLastInBodyScores } = useMutation({
-        mutationFn: ({ id, updatedData }: { id: string; updatedData: TEditedPatientData }) =>
+    const {mutate: updateLastInBodyScores} = useMutation({
+        mutationFn: ({id, updatedData}: { id: string; updatedData: TEditedPatientData }) =>
             updatePatientLastInBodyScores(id, updatedData, patient.medicalHistory.inBodyScores),
         onError: (err: Error) => {
             toast.error(err.message, {
@@ -63,7 +70,8 @@ export default function Patient() {
         }
     });
 
-    // Set edited patient data when patient data is available
+
+// Set edited patient data when patient data is available
     useEffect(() => {
         if (patient && patient.medicalHistory && patient.medicalHistory.inBodyScores.length > 0) {
             const lastInBodyScores = patient.medicalHistory.inBodyScores[0];
@@ -88,7 +96,7 @@ export default function Patient() {
         }
     }, [patient]);
 
-    // Handle edit toggle
+// Handle edit toggle
     const handleEditToggle = () => {
         setEditMode(!editMode);
     };
@@ -100,7 +108,7 @@ export default function Patient() {
         });
     };
 
-    // Save changes
+// Save changes
     const saveChanges = async () => {
         // Call mutation to update patient data
         updateLastInBodyScores({
@@ -109,11 +117,36 @@ export default function Patient() {
         });
     };
 
-    if (isLoading) {
-        return <Loading />;
+
+    const handlePatientRefer = async () => {
+
+        if (selectedClinic === '') {
+            toast.error('Please select a clinic to refer', {
+                duration: 2500
+            });
+            return;
+        }
+
+        const message = await referencePatientToAnotherClinic(id!, selectedClinic);
+
+        if (message) {
+            toast.success(message, {
+                duration: 2500
+            });
+
+            return true;
+        }
+
+        toast.error('Failed to refer patient to another clinic', {
+            duration: 2500
+        });
     }
 
-    const clinics = ['Clinic 1', 'Clinic 2', 'Clinic 3']; // Example list of clinics
+
+    if (isLoading) {
+        return <Loading/>;
+    }
+
 
     return (
         <div className="px-4 sm:px-6 lg:px-8">
@@ -136,8 +169,6 @@ export default function Patient() {
                         selectId={'clinic'}
                         selectName={'clinic'}
                         defaultOption={'Select Clinic'}
-                        className={''}
-                        containerClassName={''}
                         value={selectedClinic}
                         onChange={(e) => setSelectedClinic(e.target.value)}
                     >
@@ -150,7 +181,7 @@ export default function Patient() {
 
                     {/* Button */}
                     <button
-                        onClick={() => {}}
+                        onClick={handlePatientRefer}
                         className="block rounded-md bg-secondary-light px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-secondary-main focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
                         Refer Patient
@@ -165,9 +196,9 @@ export default function Patient() {
                             Personal Information
                         </h2>
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <DisplayField label={'First Name'} value={patient.firstName} />
-                            <DisplayField label={'Last Name'} value={patient.lastName} />
-                            <DisplayField label={'Email'} value={patient.email} />
+                            <DisplayField label={'First Name'} value={patient.firstName}/>
+                            <DisplayField label={'Last Name'} value={patient.lastName}/>
+                            <DisplayField label={'Email'} value={patient.email}/>
                             <DisplayField
                                 label={'Phone Number'}
                                 value={patient.phoneNumber}
@@ -178,9 +209,9 @@ export default function Patient() {
                                 value={patient.address}
                                 containerClassName={'sm:col-span-5'}
                             />
-                            <DisplayField label={'Gender'} value={patient.gender} />
-                            <DisplayField label={'Age'} value={patient.age} />
-                            <DisplayField label={'Job'} value={patient.job} />
+                            <DisplayField label={'Gender'} value={patient.gender}/>
+                            <DisplayField label={'Age'} value={patient.age}/>
+                            <DisplayField label={'Job'} value={patient.job}/>
                         </div>
                     </div>
 
@@ -269,7 +300,7 @@ export default function Patient() {
                             Patients Medical information.
                         </p>
 
-                        <MedicalHistory history={patient.medicalHistory} patientId={patient._id} />
+                        <MedicalHistory history={patient.medicalHistory} patientId={patient._id} isInEditMode={editMode}/>
                     </div>
                 </div>
                 {/* <div className="mt-6 flex items-center justify-end gap-x-6">
