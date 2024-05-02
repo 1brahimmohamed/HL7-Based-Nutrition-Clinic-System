@@ -29,11 +29,13 @@ export function buildHL7ADTMessage(patientRecord: any): hl7.Message {
         "",                                                                // PID-6: Mother's Maiden Name
         moment(patientRecord.birthdate).format('YYYYMMDD'),               // PID-7: Date/Time of Birth
         patientRecord.gender.toUpperCase().charAt(0),                     // PID-8: Sex (Take first character)
-        "",                                                               // PID-9: Patient Alias
+        patientRecord.job,                                                // PID-9: Patient Alias
         "",                                                               // PID-10: Race
         patientRecord.address,                                            // PID-11: Patient Address
         "",                                                               // PID-12: County Code
         patientRecord.phoneNumber,                                        // PID-13: Phone Number - Home
+        patientRecord.email,                                              // PID-14: Phone Number - Business // used for email
+
     );
 
     msg.addSegment('PV1',
@@ -184,16 +186,16 @@ export function buildHL7ADTMessage(patientRecord: any): hl7.Message {
 export function buildHL7ORUMessage(patientRecord: any, labTestResults: any[]): hl7.Message {
 
     const msg = new hl7.Message(
-        'MESA_RPT_MGR',             // MSH.3: Sending Application
-        'EAST_RADIOLOGY',           // MSH.4: Sending Facility
-        'iFW',                      // MSH.5: Receiving Application
-        'XYZ',                      // MSH.6: Receiving Facility
+        'MADIMA',                   // MSH.3: Sending Application
+        'clinic',                   // MSH.4: Sending Facility
+        'AMIDAM',                   // MSH.5: Receiving Application
+        'laboratory',               // MSH.6: Receiving Facility
         moment().format('YYYYMMDDHHmmss'), // MSH.7: Date/Time of Message
         '',                         // MSH.8: Security
-        'ORU^R01',                  // MSH.9: Message Type (Observation Result Unsolicited)
-        'MESA3b',                   // MSH.10: Message Control ID
-        'P',                        // MSH.11: Processing ID
-        '2.4'                       // MSH.12: Version ID
+        'ADT^A02',                  // MSH.9: Message Type (Patient Transfer)
+        '1817457',                  // MSH.10: Message Control ID
+        'D',                        // MSH.11: Processing ID
+        '2.5'                       // MSH.12: Version ID
     );
 
     msg.addSegment("PID",
@@ -323,13 +325,19 @@ export function hl7ToJSON(hl7Message: string): Record<string, any> {
                         case 7:
                             patientRecord.gender = fieldValue;
                             break;
+                        case 8:
+                            patientRecord.job = fieldValue;
+                            break;                            
                         case 10:
                             patientRecord.address = fieldValue;
                             break;
                         case 12:
                             patientRecord.phoneNumber = fieldValue;
                             break;
-                    }
+                        case 13:
+                            patientRecord.email = fieldValue;
+                            break;                            
+                }
                     break;
                 case 'PV1':
                     if (index === 7) patientRecord.associatedDoctor = [fieldValue];
