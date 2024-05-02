@@ -6,6 +6,7 @@ import {
     updatePatientInfo,
     updatePatientMedicalHistory,
     deletePatient,
+    referPatientToAnotherClinic
 } from "../controllers/patient.controller";
 
 const router = express.Router();
@@ -20,8 +21,9 @@ router.route("/:id")
     .patch(updatePatientInfo)
     .delete(deletePatient);
 
-router.route("/:id/medical-history")
-    .patch(updatePatientMedicalHistory);
+
+router.patch("/:id/medical-history", updatePatientMedicalHistory);
+router.post("/:id/refer", referPatientToAnotherClinic);
 
 
 export default router;

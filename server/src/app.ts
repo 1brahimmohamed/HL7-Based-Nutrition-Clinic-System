@@ -6,6 +6,7 @@ import hpp from 'hpp';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import cors from 'cors';
+import "./utils/TcpSever";
 
 import {
     doctorRoutes,

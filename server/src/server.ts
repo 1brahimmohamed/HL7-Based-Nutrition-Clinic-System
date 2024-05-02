@@ -18,8 +18,12 @@ const DB = process.env.DATABASE!.replace(
     process.env.DATABASE_PASSWORD!,
 );
 
-mongoose.connect(DB, {}).then(con => {
-    console.log('DB connection successful');
+const dbName = `${parseInt(process.env.MY_CLINIC_TCP_PORT!) === 7777 ? 'test' : 'clinic2'}`;
+
+mongoose.connect(DB, {
+    dbName: dbName,
+}).then(con => {
+    console.log(`DB connection successful to db: ${dbName}`);
 });
 
 
