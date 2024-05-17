@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FolderIcon, HomeIcon, UsersIcon } from '@heroicons/react/24/outline';
+import { FolderIcon, HomeIcon, UsersIcon, ComputerDesktopIcon } from '@heroicons/react/24/outline';
 import { Outlet } from 'react-router-dom';
 
 import MobileSidebar from '../MobileSidebar.tsx';
@@ -9,7 +9,8 @@ import TopBar from '../Topbar.tsx';
 const navigation = [
     { name: 'Appointments', href: '/', icon: HomeIcon, current: true },
     { name: 'Patients', href: '/patients', icon: UsersIcon, current: false },
-    { name: 'PDF Viewer', href: '/pdf-viewer', icon: FolderIcon, current: false }
+    { name: 'PDF Viewer', href: '/pdf-viewer', icon: FolderIcon, current: false },
+    { name: 'Decision Support', href: '/clinical-decision-support', icon: ComputerDesktopIcon, current: false }
 ];
 const userNavigation = [
     { name: 'Your profile', href: '/settings' },
