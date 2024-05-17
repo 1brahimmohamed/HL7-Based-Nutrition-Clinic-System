@@ -158,13 +158,9 @@ export const referPatientToAnotherClinic = AsyncErrorCatching(async (data: Reque
 
         }
     });
-    // @ts-ignore
-    // const parser = new hl7.Parser({segmentSeperator: '\n'});
-    // @ts-ignore
-    // const msg = parser.parseFileSync("D:\\My PC\\Projects\\HIS\\second-semster\\clinic\\server\\src\\utils\\adt.hl7");
+
 
     const message = buildHL7ADTMessage(patient);
-    // console.log(message);
 
     console.log(`**** Sending HL7 Message to ${clinicId} on port ${process.env.OTHER_CLINIC_TCP_PORT || 7777} ****`);
     console.log(message.log());
