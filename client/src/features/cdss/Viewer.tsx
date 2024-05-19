@@ -1,6 +1,6 @@
 //@ts-nocheck
 import initCornerstone from '../../utils/initCornerstone.js';
-import { useState, useEffect, useRef } from 'react';
+import {useState, useEffect, useRef} from 'react';
 import CornerstoneViewport from 'react-cornerstone-viewport'
 import cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
 import Options from "./Options.tsx";
@@ -53,15 +53,18 @@ const Viewer = () => {
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [dataInformation, setDataInformation] = useState({});
-    initialConfig.imageIds = []
-
+    const [isImageIDs, setIsImageIDs] = useState(false);
+    const [files, setFiles] = useState<File[]>([]);
     const [config, setConfig] = useState(initialConfig);
 
-    console.log(config);
+    initialConfig.imageIds = []
 
     const handleFileInputChange = (event) => {
         for (const file of event.target.files) {
             const imageId = cornerstoneWADOImageLoader.wadouri.fileManager.add(file);
+            const currentFiles = files
+            currentFiles.push(file)
+            setFiles(currentFiles);
             setConfig((prevconfig) => ({
                 ...prevconfig,
                 imageIds: [...prevconfig.imageIds, imageId],
@@ -70,26 +73,24 @@ const Viewer = () => {
 
         const file = event.target.files[0]
 
-        // check the type of file
-        if (file.type === 'application/dicom') {
-            const reader = new FileReader();
-            reader.onload =  () => {
-                const arrayBuffer = reader.result;
-                const byteArray = new Uint8Array(arrayBuffer);
-                const dataSet = dicomParser.parseDicom(byteArray);
 
-                setDataInformation({
-                    studyInstanceUID: dataSet.string('x0020000d'),
-                    seriesInstanceUID: dataSet.string('x0020000e'),
-                    patientName: dataSet.string('x00100010'),
-                })
-            };
+        const reader = new FileReader();
+        reader.onload = () => {
+            const arrayBuffer = reader.result;
+            const byteArray = new Uint8Array(arrayBuffer);
+            const dataSet = dicomParser.parseDicom(byteArray);
 
-            reader.readAsArrayBuffer(file);
-        }
+            setDataInformation({
+                studyInstanceUID: dataSet.string('x0020000d'),
+                seriesInstanceUID: dataSet.string('x0020000e'),
+                patientName: dataSet.string('x00100010'),
+            })
+        };
+
+        reader.readAsArrayBuffer(file);
+
     }
 
-    const [isImageIDs, setIsImageIDs] = useState(false);
 
     const handleButtonClick = () => {
         // Trigger click event on the hidden file input
@@ -102,6 +103,7 @@ const Viewer = () => {
         setIsImageIDs(false);
         setConfig(initialConfig);
         setDataInformation({})
+        setFiles([])
     }
 
     useEffect(() => {
@@ -117,15 +119,15 @@ const Viewer = () => {
                 type="file"
                 accept=".dcm,.jpg"
                 ref={fileInputRef}
-                style={{ display: 'none' }}
+                style={{display: 'none'}}
                 onChange={handleFileInputChange}
             />
 
             <div className={"flex flex-wrap w-2/3 h-[92vh]"}>
                 {isImageIDs && config.imageIds && config.viewports.map(viewportIndex => (
-                    <div key={viewportIndex} style={{ flex: '1', display: 'flex', flexDirection: 'row' }}>
+                    <div key={viewportIndex} style={{flex: '1', display: 'flex', flexDirection: 'row'}}>
                         <CornerstoneViewport
-                            style={{ flex: '1', minWidth: '720px', height: '100%' }}
+                            style={{flex: '1', Width: '720px', height: '100%'}}
                             tools={config.tools}
                             imageIds={config.imageIds}
                             imageIdIndex={config.imageIdIndex}
@@ -149,7 +151,13 @@ const Viewer = () => {
             </div>
 
             <div className={"h-full w-1/3 "}>
-                <Options onUploadClick={handleButtonClick} information={dataInformation} numImages={config.imageIds.length} onClearClick={handleClearClick}/>
+                <Options
+                    information={dataInformation}
+                    numImages={config.imageIds.length}
+                    files={files}
+                    onUploadClick={handleButtonClick}
+                    onClearClick={handleClearClick}
+                />
             </div>
 
         </div>

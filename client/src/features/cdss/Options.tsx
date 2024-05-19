@@ -1,9 +1,50 @@
-import { Button } from '@mui/material';
+import {useState} from 'react';
+import {Button} from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import {predict} from "../../services/apiCdss.ts";
+import toast from "react-hot-toast";
 
-const Options = ({ information, numImages, onUploadClick, onClearClick }) => {
+type TOptionsProps = {
+    information: {
+        studyInstanceUID: string;
+        seriesInstanceUID: string;
+        patientName: string;
+    };
+    numImages: number;
+    onUploadClick: () => void;
+    onClearClick: () => void;
+    files: File[];
+}
+
+const textColorOptions = {
+    'malignant': 'text-red-500',
+    'benign': 'text-green-500',
+    'normal': 'text-blue-500',
+}
+
+
+const Options = ({information, numImages, onUploadClick, onClearClick, files}: TOptionsProps) => {
 
     console.log(information);
+    const [prediction, setPrediction] = useState("");
+
+    const handleModelRun = async () => {
+        const res = await predict(files[0]);
+
+        if (res.status === 'success') {
+            setPrediction(res.prediction);
+        } else {
+            toast.error(res.message);
+        }
+    }
+
+    const textColor = textColorOptions[prediction];
+
+
+    const handleClear = () => {
+        setPrediction("");
+        onClearClick();
+    }
 
     return (
         <div className={'text-gray-400 p-3'}>
@@ -20,7 +61,7 @@ const Options = ({ information, numImages, onUploadClick, onClearClick }) => {
                     variant="contained"
                     color="primary"
                     size="medium"
-                    endIcon={<FileUploadIcon />}
+                    endIcon={<FileUploadIcon/>}
                     onClick={onUploadClick}
                 >
                     Upload
@@ -36,7 +77,7 @@ const Options = ({ information, numImages, onUploadClick, onClearClick }) => {
                 <p>Patient Name: {information.patientName}</p>
             </div>
 
-            <hr className={'mt-10 border-gray-600'} />
+            <hr className={'mt-10 border-gray-600'}/>
 
             <div className={'flex flex-col mt-10 gap-y-3'}>
                 <h1 className={'text-2xl'}>Diagnose</h1>
@@ -45,13 +86,18 @@ const Options = ({ information, numImages, onUploadClick, onClearClick }) => {
                     variant="contained"
                     color="primary"
                     size="medium"
+                    onClick={handleModelRun}
                 >
                     Run
                 </Button>
 
-                <div className={'flex justify-center'}>
-                    <p>Result: <span className={'text-red-600'}> El Bakat Llah </span></p>
-                </div>
+                {
+                    prediction !== "" && (
+                        <div className={'flex text-center flex-col mt-10 gap-y-3'}>
+                            <p> The Result of test is: <span className={`${textColor}`}>{prediction}</span></p>
+                        </div>
+                    )
+                }
 
             </div>
 
@@ -62,7 +108,7 @@ const Options = ({ information, numImages, onUploadClick, onClearClick }) => {
                     variant="contained"
                     color="error"
                     size="medium"
-                    onClick={onClearClick}
+                    onClick={handleClear}
                 >
                     Clear Images
                 </Button>

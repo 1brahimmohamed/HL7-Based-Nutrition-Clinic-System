@@ -36,8 +36,6 @@ def read_root():
 @app.post("/predict")
 def predict(dicomFile: UploadFile = File(...)):
 
-    print(dicomFile)
-
     # check if file is empty
     if dicomFile.file is None:
         raise HTTPException(
