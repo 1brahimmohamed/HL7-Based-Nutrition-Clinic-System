@@ -14,11 +14,12 @@ export const predict = async (files: File[]) => {
             }
         });
 
-        const {prediction} = res.data;
+        const {prediction, slices} = res.data;
 
         return {
             status: 'success',
-            prediction
+            prediction,
+            slices: slices || []
         };
 
     } catch (e: any) {

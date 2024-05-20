@@ -27,12 +27,15 @@ const Options = ({information, numImages, onUploadClick, onClearClick, files}: T
 
     console.log(information);
     const [prediction, setPrediction] = useState("");
+    const [slices, setSlices] = useState([]);
 
     const handleModelRun = async () => {
         const res = await predict(files);
 
         if (res.status === 'success') {
             setPrediction(res.prediction);
+            setSlices(res.slices);
+            console.log(res.slices)
         } else {
             toast.error(res.message);
         }
@@ -95,6 +98,7 @@ const Options = ({information, numImages, onUploadClick, onClearClick, files}: T
                     prediction !== "" && (
                         <div className={'flex text-center flex-col mt-10 gap-y-3'}>
                             <p> The result of ai-model is: <span className={`${textColor}`}>{prediction}</span></p>
+                            {slices.length > 0 && (<p> the {prediction} cases is in slices: {slices.join(', ')}</p>)}
                         </div>
                     )
                 }

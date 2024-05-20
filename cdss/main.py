@@ -98,13 +98,13 @@ async def predict(dicomFiles: list[UploadFile] = File(...)):
 
     # if there is a maligant case, return the prediction
     if "malignant" in predictions:
-        index = predictions.index('malignant')
-        return {"prediction": "malignant", "status": "Malignant case detected", "slice_number": index + 1}
+        indices = [i for i, x in enumerate(predictions) if x == "malignant"]
+        return {"prediction": "malignant", "status": "Malignant case detected", "slices": indices}
 
     # if there is a benign case, return the prediction
     elif "benign" in predictions:
-        index = predictions.index('benign')
-        return {"prediction": "benign", "status": "Benign case detected", "slice_number": index + 1}
+        indices = [i for i, x in enumerate(predictions) if x == "benign"]
+        return {"prediction": "benign", "status": "Benign case detected", "slices": indices}
 
     # if there is a normal case, return the prediction
     return {"prediction": predictions[0]}
