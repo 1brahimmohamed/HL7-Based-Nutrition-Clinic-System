@@ -1,14 +1,14 @@
 import axios from 'axios';
 const API_URL = `${import.meta.env.VITE_CDSS_URL}`;
 
-export const predict = async (file: File) => {
+export const predict = async (files: File[]) => {
     try {
         const formData = new FormData();
-        formData.append('dicomFile', file);
+        files.forEach((file) => {
+            formData.append('dicomFiles', file);
+        });
 
-        console.log('formData', formData)
-
-        const res = await axios.post(`${API_URL}`, formData , {
+        const res = await axios.post(`${API_URL}/many`, formData , {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }

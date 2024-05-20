@@ -18,8 +18,8 @@ type TOptionsProps = {
 
 const textColorOptions = {
     'malignant': 'text-red-500',
-    'benign': 'text-green-500',
-    'normal': 'text-blue-500',
+    'benign': 'text-blue-500',
+    'normal': 'text-green-500',
 }
 
 
@@ -29,7 +29,7 @@ const Options = ({information, numImages, onUploadClick, onClearClick, files}: T
     const [prediction, setPrediction] = useState("");
 
     const handleModelRun = async () => {
-        const res = await predict(files[0]);
+        const res = await predict(files);
 
         if (res.status === 'success') {
             setPrediction(res.prediction);
@@ -94,7 +94,7 @@ const Options = ({information, numImages, onUploadClick, onClearClick, files}: T
                 {
                     prediction !== "" && (
                         <div className={'flex text-center flex-col mt-10 gap-y-3'}>
-                            <p> The Result of test is: <span className={`${textColor}`}>{prediction}</span></p>
+                            <p> The result of ai-model is: <span className={`${textColor}`}>{prediction}</span></p>
                         </div>
                     )
                 }
