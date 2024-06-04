@@ -45,7 +45,7 @@ The system mainly consists of:
         - Specifically define the slices including malignant or benign tumors.
          
 ### Dataset 
-- Source: Iraq-Oncology Teaching Hospital/National Center for Cancer Diseases
+- Source: Iraq-Oncology Teaching Hospital/National Center for Cancer Diseases, if you want to access the dataset [Click here](https://www.kaggle.com/datasets/hamdallak/the-iqothnccd-lung-cancer-dataset) 
 - Size:
     - 1097 CT scan slices including 561 malignant, 120 bengin & 416 normal slices.
     - 110 cases including 40 malignant, 15 bengin & 55 normal.
@@ -54,9 +54,10 @@ The system mainly consists of:
   
 ### Technologies
 - System
-    - Front-end: React native with typescript
-    - Back-end: NodeJs with typescript
-    - Database: mongoDB
+    - Frontend: React with Typescript
+    - Backend: NodeJs with Typescript
+    - Database: MongoDB
+    - CDSS module: Python FastAPI 
      
 -  Deep learning model
     - Used MobileNet pre-trained model with a Softmax output layer for classification.
@@ -94,6 +95,6 @@ The system mainly consists of:
       
 ### Submitted to:
 Dr. Eman Ayman & Eng. Yara Wael
-All rights reserved © 2024 to Mdima team (Systems & Biomedical Engineering, Cairo University Class 2024)
+All rights reserved © 2024 to MDIMA team (Systems & Biomedical Engineering, Cairo University Class 2024)
 
 
