@@ -63,23 +63,23 @@ A medical viewer that allow doctor to view DICOM studies of lung cancer disease 
 
 ### Contributors
 <a href="https://github.com/1brahimmohamed">
-  <img src="https://avatars.githubusercontent.com/1brahimmohamed"/>
+  <img src="https://avatars.githubusercontent.com/1brahimmohamed" width="50px;"/>
 </a>
 
 <a href="https://github.com/mahamedhat">
-  <img src="https://avatars.githubusercontent.com/mahamedhat" />
+  <img src="https://avatars.githubusercontent.com/mahamedhat" width="50px;"/>
 </a>
 
 <a href="https://github.com/AmeeraMOhammed">
-  <img src="https://avatars.githubusercontent.com/AmeeraMOhammed" />
+  <img src="https://avatars.githubusercontent.com/AmeeraMOhammed" width="50px;" />
 </a>
 
 <a href="https://github.com/doha-eid">
-  <img src="https://avatars.githubusercontent.com/doha-eid" />
+  <img src="https://avatars.githubusercontent.com/doha-eid" width="50px;"/>
 </a>
 
 <a href="https://github.com/mayekhaled0">
-  <img src="https://avatars.githubusercontent.com/mayekhaled0" />
+  <img src="https://avatars.githubusercontent.com/mayekhaled0" width="50px;"/>
 </a>
     
       
