@@ -37,9 +37,8 @@ The system mainly consists of:
 
               
 - [x] Clinical desicion support module
- A medical viewer that allow doctor to view DICOM studies of lung cancer disease including many features as:
-    - Uploading DICOM studies.
-    - Medical viewing.
+   - Uploading DICOM studies.
+   - Medical viewing.
             - Allow multiple features as Panning, Zooming & Windowing.
             - Classify each slice indepentently into malignant,benign or normal.
             - Provide information about the uploaded study as number of instances Uploaded, study Uid, series Uid and patient name.
@@ -63,7 +62,7 @@ The system mainly consists of:
 
 ### Contributors
 <a href="https://github.com/1brahimmohamed">
-  <img src="https://avatars.githubusercontent.com/1brahimmohamed" style=border-radius: "50%;" width="100px; "/>
+  <img src="https://avatars.githubusercontent.com/1brahimmohamed" style= border-radius: "100px;" width="100px; "/>
 </a>
 
 <a href="https://github.com/mahamedhat">
