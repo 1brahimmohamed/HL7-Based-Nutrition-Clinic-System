@@ -5,6 +5,7 @@
 - [Introduction](#introduction)
 - [Overview](#overview)
 - [Features](#features)
+- [Dataset](#dataset)
 - [Technologies](#technologies)
 - [Demo](#demo)
 - [Contributors](#contributors)
@@ -21,7 +22,7 @@ The system mainly consists of:
 - Clincal desicion support module (CDSS).
 
 ### Features 
-- [x] Doctor Portal
+- Doctor Portal
     - Doctor Login
     - Doctor Registration
     - Doctor operations
@@ -33,7 +34,7 @@ The system mainly consists of:
             - Edit some in-body test parameters as weight, weight control, fats & fat control.
             - Upload new in body test.
             - Referal of the patient to another clinic this was built using HL7 communication.
-- [x] Clinical desicion support module
+- Clinical desicion support module
     - Uploading DICOM studies.
     - Doctor Registration
     - Medical viewing.
@@ -43,14 +44,21 @@ The system mainly consists of:
         - Show the overall result for the uploaded study.
         - Specifically define the slices including malignant or benign tumors.
          
-            
+### Dataset 
+- Source: Iraq-Oncology Teaching Hospital/National Center for Cancer Diseases
+- Size:
+    - 1097 CT scan slices including 561 malignant, 120 bengin & 416 normal slices.
+    - 110 cases including 40 malignant, 15 bengin & 55 normal.
+- Format: Originally collected in DICOM, but the dataset was available only in JPG format, so we added the metadata and converted it into DICOM.
+  
+  
 ### Technologies
-- [x] System
+- System
     - Front-end: React native with typescript
     - Back-end: NodeJs with typescript
     - Database: mongoDB
      
-- [x] Deep learning model
+-  Deep learning model
     - Used MobileNet pre-trained model with a Softmax output layer for classification.
     - Model input: DICOM image pixel array
     - Model output: class with the highest probability from Softmax layer
@@ -68,6 +76,7 @@ The system mainly consists of:
 
 <a href="https://github.com/mahamedhat">
   <img src="https://avatars.githubusercontent.com/mahamedhat" width="100px; "/>
+  
 </a>
 
 <a href="https://github.com/AmeeraMOhammed">
@@ -84,7 +93,7 @@ The system mainly consists of:
     
       
 ### Submitted to:
-Dr Eman Ayman & Eng. Yara Wael
+Dr. Eman Ayman & Eng. Yara Wael
 All rights reserved © 2024 to Mdima team (Systems & Biomedical Engineering, Cairo University Class 2024)
 
 
