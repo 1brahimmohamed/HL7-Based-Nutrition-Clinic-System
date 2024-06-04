@@ -6,7 +6,7 @@
 - [Overview](#overview)
 - [Features](#features)
 - [Technologies](#technologies)
-- [Demos](#demos)
+- [Demo](#demo)
 - [Contributors](#contributors)
 
 ### Introduction
@@ -57,8 +57,10 @@ The system mainly consists of:
      
 
 
-### Demos
+### Demo
+- CDSS module
 
+  ![CDSS module](https://drive.google.com/file/d/1lILOaTZXL92kz-h6-fBSwhvhK9xODgID/view?usp=sharing)
 ### Contributors
 <a href="https://github.com/1brahimmohamed">
   <img src="https://avatars.githubusercontent.com/1brahimmohamed"  width="100px; "/>
