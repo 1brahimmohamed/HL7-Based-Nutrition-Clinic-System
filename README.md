@@ -59,7 +59,7 @@ The system mainly consists of:
 
 ### Demo
 - CDSS module
-![Demo](CDSS Demo.gif)
+![Demo](CDSS_Demo.gif)
 
 ### Contributors
 <a href="https://github.com/1brahimmohamed">
