@@ -6,7 +6,6 @@
 - [Overview](#overview)
 - [Features](#features)
 - [Technologies](#technologies)
-- [How to Run the Project](#how-to-run-the-project)
 - [Demos](#demos)
 - [Contributors](#contributors)
 
@@ -34,16 +33,16 @@ The system mainly consists of:
             - Edit some in-body test parameters as weight, weight control, fats & fat control.
             - Upload new in body test.
             - Referal of the patient to another clinic this was built using HL7 communication.
-
-              
 - [x] Clinical desicion support module
-   - Uploading DICOM studies.
-   - Medical viewing.
-            - Allow multiple features as Panning, Zooming & Windowing.
-            - Classify each slice indepentently into malignant,benign or normal.
-            - Provide information about the uploaded study as number of instances Uploaded, study Uid, series Uid and patient name.
-            - Show the overall result for the uploaded study.
-            - Specifically define the slices including malignant or benign tumors.
+    - Uploading DICOM studies.
+    - Doctor Registration
+    - Medical viewing.
+        - Allow multiple features as Panning, Zooming & Windowing.
+        - Classify each slice indepentently into malignant,benign or normal.
+        - Provide information about the uploaded study as number of instances Uploaded, study Uid, series Uid and patient name.
+        - Show the overall result for the uploaded study.
+        - Specifically define the slices including malignant or benign tumors.
+         
             
 ### Technologies
 - [x] System
@@ -56,29 +55,29 @@ The system mainly consists of:
     - Model input: DICOM image pixel array
     - Model output: class with the highest probability from Softmax layer
      
-### How to run the project
+
 
 ### Demos
 
 ### Contributors
 <a href="https://github.com/1brahimmohamed">
-  <img src="https://avatars.githubusercontent.com/1brahimmohamed" style= border-radius: "100px;" width="100px; "/>
+  <img src="https://avatars.githubusercontent.com/1brahimmohamed"  width="100px; "/>
 </a>
 
 <a href="https://github.com/mahamedhat">
-  <img src="https://avatars.githubusercontent.com/mahamedhat" style="border-radius: 50%;" width="100px; "/>
+  <img src="https://avatars.githubusercontent.com/mahamedhat" width="100px; "/>
 </a>
 
 <a href="https://github.com/AmeeraMOhammed">
-  <img src="https://avatars.githubusercontent.com/AmeeraMOhammed"style="border-radius: 50%;" width="100px; " />
+  <img src="https://avatars.githubusercontent.com/AmeeraMOhammed" width="100px; " />
 </a>
 
 <a href="https://github.com/doha-eid">
-  <img src="https://avatars.githubusercontent.com/doha-eid" style="border-radius: 50%;" width="100px; "/>
+  <img src="https://avatars.githubusercontent.com/doha-eid"  width="100px; "/>
 </a>
 
 <a href="https://github.com/mayekhaled0">
-  <img src="https://avatars.githubusercontent.com/mayekhaled0" style="border-radius: 50%;" width="100px; "/>
+  <img src="https://avatars.githubusercontent.com/mayekhaled0"  width="100px; "/>
 </a>
     
       
