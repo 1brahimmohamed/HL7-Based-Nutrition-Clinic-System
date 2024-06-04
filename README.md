@@ -37,7 +37,7 @@ The system mainly consists of:
 
               
 - [x] Clinical desicion support module
-A medical viewer that allow doctor to view DICOM studies of lung cancer disease including many features as:
+
     - Uploading DICOM studies.
     - Medical viewing.
             - Allow multiple features as Panning, Zooming & Windowing.
@@ -63,23 +63,23 @@ A medical viewer that allow doctor to view DICOM studies of lung cancer disease 
 
 ### Contributors
 <a href="https://github.com/1brahimmohamed">
-  <img src="https://avatars.githubusercontent.com/1brahimmohamed" width="50px;"/>
+  <img src="https://avatars.githubusercontent.com/1brahimmohamed" style="border-radius: 50%;" width="100px; "/>
 </a>
 
 <a href="https://github.com/mahamedhat">
-  <img src="https://avatars.githubusercontent.com/mahamedhat" width="50px;"/>
+  <img src="https://avatars.githubusercontent.com/mahamedhat" style="border-radius: 50%;" width="100px; "/>
 </a>
 
 <a href="https://github.com/AmeeraMOhammed">
-  <img src="https://avatars.githubusercontent.com/AmeeraMOhammed" width="50px;" />
+  <img src="https://avatars.githubusercontent.com/AmeeraMOhammed"style="border-radius: 50%;" width="100px; " />
 </a>
 
 <a href="https://github.com/doha-eid">
-  <img src="https://avatars.githubusercontent.com/doha-eid" width="50px;"/>
+  <img src="https://avatars.githubusercontent.com/doha-eid" style="border-radius: 50%;" width="100px; "/>
 </a>
 
 <a href="https://github.com/mayekhaled0">
-  <img src="https://avatars.githubusercontent.com/mayekhaled0" width="50px;"/>
+  <img src="https://avatars.githubusercontent.com/mayekhaled0" style="border-radius: 50%;" width="100px; "/>
 </a>
     
       
