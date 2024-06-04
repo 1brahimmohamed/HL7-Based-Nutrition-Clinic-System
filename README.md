@@ -60,7 +60,7 @@ The system mainly consists of:
 ### Demo
 - CDSS module
 
-  ![CDSS module](https://drive.google.com/file/d/1lILOaTZXL92kz-h6-fBSwhvhK9xODgID/view?usp=sharing)
+  ![CDSS module]()
 ### Contributors
 <a href="https://github.com/1brahimmohamed">
   <img src="https://avatars.githubusercontent.com/1brahimmohamed"  width="100px; "/>
